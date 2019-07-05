@@ -1,0 +1,73 @@
+* {
+    margin: 0;
+    scroll-behavior: smooth;
+}
+nav {
+    display: flex;
+    justify-content: right;
+    width: 100%;
+    height: 5vh;
+    background-color: rgb(35, 48, 48);
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+}
+
+nav a {
+    
+    float: right;
+    font-family: sans-serif;
+    font-size: 18px;
+    color: lightgray;
+    background-color: rgb(35, 48, 48);
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    text-decoration: none;
+    
+}
+
+nav a:hover {
+    color: white;
+    background-color: rgb(63, 95, 95);
+    
+
+}
+
+nav .logo {
+    background: url(../../public/EGA.png);
+    float:left;
+    height: 40px;
+    width: 40px;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.flex-item {
+    height: 30vh;
+    padding: 20px;
+    text-align: center;
+}
+.flex-intro {
+    height: 91vh;
+    padding: 20px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.342);
+}
+
+.flex-item h1 {
+    font-size: 30px;
+}
+
+button {
+
+}
+
+button:hover {
+    cursor: pointer;
+}
