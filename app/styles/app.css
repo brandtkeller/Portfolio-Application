@@ -7,10 +7,11 @@ nav {
     justify-content: right;
     width: 100%;
     height: 5vh;
-    background-color: rgb(35, 48, 48);
+    background-color: rgb(30, 32, 32);
     overflow: hidden;
     position: sticky;
     top: 0;
+    z-index: 99;
 }
 
 nav a {
@@ -19,27 +20,56 @@ nav a {
     font-family: sans-serif;
     font-size: 18px;
     color: lightgray;
-    background-color: rgb(35, 48, 48);
+    background-color: rgb(30, 32, 32);
     padding-top: 10px;
     padding-right: 20px;
     padding-bottom: 10px;
     padding-left: 10px;
     text-decoration: none;
-    
+    z-index: 99;
 }
 
 nav a:hover {
     color: white;
     background-color: rgb(63, 95, 95);
-    
-
 }
 
-nav .logo {
-    background: url(../../public/EGA.png);
-    float:left;
-    height: 40px;
+.sidebar {
+    position: fixed;
+    top: 10vh;
+    left: 1vw;
+    height:70px;
     width: 40px;
+    background-color: rgba(30, 32, 32, 0);
+    z-index: 99;
+}
+
+.sidebar .fa {
+    color: white;
+    font-size: 40px;
+    text-decoration: none;
+    padding: 5px;
+}
+
+.fa-linkedin-square:hover {
+    content: "LinkedIn";
+    color: white;
+    text-decoration: none;
+    font-size: 50px;
+}
+
+.fa-github-square:hover {
+    content: "LinkedIn";
+    color: white;
+    text-decoration: none;
+    font-size: 50px;
+}
+
+.fa-file-pdf-o:hover {
+    content: "LinkedIn";
+    color: white;
+    text-decoration: none;
+    font-size: 50px;
 }
 
 .flex-container {
@@ -48,26 +78,99 @@ nav .logo {
     justify-content: space-between;
 }
 
-.flex-item {
+.flex-item-a {
+    padding-right: 15vw;
+    padding-left: 15vw;
     height: 30vh;
     padding: 20px;
     text-align: center;
+    background-color: rgb(94, 94, 94);
 }
-.flex-intro {
-    height: 91vh;
+
+.flex-item-a img {
+    margin-left: 5vw;
+    float:left;
+    border-radius: 100%;
+    height:20vh;
+    margin-top: 5vh;
+    filter: grayscale(50%);
+}
+
+.flex-item-a img:hover {
+    margin-left: 5vw;
+    float:left;
+    border-radius: 100%;
+    height:20vh;
+    margin-top: 5vh;
+}
+
+.flex-item-b {
+    padding-right: 15vw;
+    padding-left: 15vw;
+    height: 30vh;
     padding: 20px;
     text-align: center;
-    background-color: rgba(0, 0, 0, 0.342);
+    background-color: rgb(80, 80, 80);
+}
+
+.flex-intro {
+    z-index: 1;
+    position: relative;
+    height: 95vh;
+    text-align: center;
+    background-color: rgb(46, 46, 46);
+}
+.flex-item-content {
+    border-top: 4px solid rgb(86, 86, 86);
+    height: 100%;
+    width: 60vw;
+    margin-left: 20vw;
+    color: white;
+}
+
+.flex-item-content p{
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.flex-intro img{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-image: url("/assets/mountain.jpg");
+    background-repeat: no-repeat;
+    opacity: 0.3;
+}
+
+.flex-intro-content {
+    color: rgb(226, 221, 221);
+    text-align: center;
+    display: block;
+    position: absolute;
+    top: 10vh;
+    height: 50%;
+    width: 80vw;
+    margin-left: 10vw;
+    margin-top: 20vh;
+} 
+
+.flex-intro-content h1 {
+    font-size: 40px;
+}
+.flex-intro-content h2 {
+    font-size: 25px;
+    margin-top: 10px;
+}
+.flex-intro-content h3 {
+    margin-top: 10px;
+    font-size: 20px;
+    width: 60vw;
+    margin-left: 10vw;
+    padding-bottom: 3px;
+    border-top: 3px solid rgb(226, 221, 221);
+    border-bottom: 3px solid rgb(226, 221, 221);
 }
 
 .flex-item h1 {
     font-size: 30px;
-}
-
-button {
-
-}
-
-button:hover {
-    cursor: pointer;
 }
