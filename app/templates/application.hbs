@@ -1,8 +1,8 @@
 <nav>
-  <a href="#">Home</a>
-  <a href="#">Projects</a>
-  <a href="#">Tutorials</a>
-  <a href="#">Demo</a>
-  <a href="#">Contact</a>
+  {{#link-to "index"}}Home{{/link-to}}
+  {{#link-to "blog"}}Blog{{/link-to}}
+  {{#link-to "tutorials"}}Tutorials{{/link-to}}
+  {{#link-to "demo"}}Demo{{/link-to}}
+  {{#link-to "contact"}}Contact{{/link-to}}
 </nav>
 {{outlet}}

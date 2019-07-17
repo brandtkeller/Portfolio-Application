@@ -79,8 +79,6 @@ nav a:hover {
 }
 
 .flex-item-a {
-    padding-right: 15vw;
-    padding-left: 15vw;
     height: 30vh;
     padding: 20px;
     text-align: center;
@@ -90,7 +88,7 @@ nav a:hover {
 .flex-item-a img {
     margin-left: 5vw;
     float:left;
-    border-radius: 100%;
+    border-radius: 10%;
     height:20vh;
     margin-top: 5vh;
     filter: grayscale(50%);
@@ -99,9 +97,21 @@ nav a:hover {
 .flex-item-a img:hover {
     margin-left: 5vw;
     float:left;
-    border-radius: 100%;
+    border-radius: 10%;
     height:20vh;
     margin-top: 5vh;
+    filter: grayscale(0%);
+}
+
+.education {
+    height: 20vh;
+    padding: 20px;
+    background-color: rgb(94, 94, 94);
+}
+
+.education h1 {
+    color: white;
+    padding-left: 60px;
 }
 
 .flex-item-b {
@@ -109,8 +119,33 @@ nav a:hover {
     padding-left: 15vw;
     height: 30vh;
     padding: 20px;
-    text-align: center;
-    background-color: rgb(80, 80, 80);
+    
+}
+
+.experience {
+    padding-right: 15vw;
+    padding-left: 15vw;
+    height: 86vh;
+    padding: 20px;
+    background-color: rgb(84, 84, 84);
+}
+
+.experience h1 {
+    color: white;
+    padding-left: 60px;
+}
+
+.skills {
+    padding-right: 15vw;
+    padding-left: 15vw;
+    height: 20vh;
+    padding: 20px;
+    background-color: rgb(84, 84, 84);
+}
+
+.skills h1 {
+    color: white;
+    padding-left: 60px;
 }
 
 .flex-intro {
@@ -121,17 +156,29 @@ nav a:hover {
     background-color: rgb(46, 46, 46);
 }
 .flex-item-content {
-    border-top: 4px solid rgb(86, 86, 86);
+    
     height: 100%;
     width: 60vw;
     margin-left: 20vw;
     color: white;
+    text-align: center;
+}
+
+.flex-item-content h2 {
+    font-size: 28px;
+    margin-top: 10px;
+}
+
+.flex-item-content h3 {
+    font-size: 25px;
+    margin-top: 8px;
 }
 
 .flex-item-content p{
-    margin-bottom: 10px;
-    font-size: 18px;
+    font-size: 22px;
 }
+
+
 
 .flex-intro img{
     position: relative;
