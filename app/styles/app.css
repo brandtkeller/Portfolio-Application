@@ -76,10 +76,10 @@ nav a:hover {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 100%;
 }
 
 .flex-item-a {
-    height: 30vh;
     padding: 20px;
     text-align: center;
     background-color: rgb(94, 94, 94);
@@ -89,7 +89,7 @@ nav a:hover {
     margin-left: 5vw;
     float:left;
     border-radius: 10%;
-    height:20vh;
+    height:16vh;
     margin-top: 5vh;
     filter: grayscale(50%);
 }
@@ -98,13 +98,12 @@ nav a:hover {
     margin-left: 5vw;
     float:left;
     border-radius: 10%;
-    height:20vh;
+    height:16vh;
     margin-top: 5vh;
     filter: grayscale(0%);
 }
 
 .education {
-    height: 20vh;
     padding: 20px;
     background-color: rgb(94, 94, 94);
 }
@@ -117,28 +116,42 @@ nav a:hover {
 .flex-item-b {
     padding-right: 15vw;
     padding-left: 15vw;
-    height: 30vh;
     padding: 20px;
     
 }
 
 .experience {
-    padding-right: 15vw;
-    padding-left: 15vw;
-    height: 86vh;
-    padding: 20px;
+    padding-right: 12vw;
+    padding-left: 12vw;
     background-color: rgb(84, 84, 84);
+    color: white;
+    text-align: center;
+    flex-grow: 2;
+    flex-wrap: nowrap;
+    overflow: hidden;
 }
 
 .experience h1 {
     color: white;
-    padding-left: 60px;
+}
+
+.experience h2 {
+    font-size: calc(1.5vh * 1.5vw);
+    margin-top: 10px;
+}
+
+.experience h3 {
+    font-size: 25px;
+    margin-top: 8px;
+}
+
+.experience p{
+    font-size: 22px;
 }
 
 .skills {
-    padding-right: 15vw;
-    padding-left: 15vw;
-    height: 20vh;
+    padding-right: 12vw;
+    padding-left: 12vw;
     padding: 20px;
     background-color: rgb(84, 84, 84);
 }
@@ -165,7 +178,7 @@ nav a:hover {
 }
 
 .flex-item-content h2 {
-    font-size: 28px;
+    font-size: calc(1.5vh * 1.5vw);
     margin-top: 10px;
 }
 
@@ -195,7 +208,6 @@ nav a:hover {
     display: block;
     position: absolute;
     top: 10vh;
-    height: 50%;
     width: 80vw;
     margin-left: 10vw;
     margin-top: 20vh;
@@ -220,4 +232,9 @@ nav a:hover {
 
 .flex-item h1 {
     font-size: 30px;
+}
+
+.footer {
+    background-color: rgb(94, 94, 94);
+    height: 3vh;
 }
