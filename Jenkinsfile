@@ -5,6 +5,8 @@ pipeline {
             steps {
                 sh 'npm --version'
                 sh 'npm install -g ember-cli'
+                sh 'ember -v'
+                sh 'ls'
             }
         }
     }
