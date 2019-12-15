@@ -23,7 +23,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'apt-get update -qq && apt-get install -qqy apt-transport-https ca-certificates curl gnupg2 software-properties-common'
+                sh 'apt-get update -qq && apt-get install -qqy apt-transport-https ca-certificates curl unzip gnupg2 software-properties-common'
                 sh 'curl "https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"'
                 sh 'unzip awscliv2.zip'
                 sh './aws/install'
