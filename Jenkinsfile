@@ -15,6 +15,7 @@ pipeline {
                 sh 'npm --version'
                 sh 'whoami'
                 sh 'npm install -g ember-cli'
+                sh 'npm install'
                 sh 'ember -v'
                 sh 'ls'
                 sh 'ember build -prod -o=/root/output'
