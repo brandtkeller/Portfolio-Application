@@ -16,18 +16,10 @@ pipeline {
             }
         }
         stage('deploy') {
-            agent {
-                docker { 
-                    image 'ubuntu:18.04' 
-                    args '-v /var/jenkins_home/.aws:/root/.aws'    
-                }
+            agent any
             }
             steps {
                 sh 'ls /root/.aws'
-                sh 'apt-get update -qq && apt-get install -qqy apt-transport-https ca-certificates curl unzip gnupg2 software-properties-common'
-                sh 'curl "https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"'
-                sh 'unzip awscliv2.zip'
-                sh './aws/install'
                 sh 'aws2 s3 ls'
             }
         }
