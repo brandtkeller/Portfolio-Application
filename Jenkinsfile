@@ -4,6 +4,13 @@ pipeline {
         skipStagesAfterUnstable()
     }
     stages {
+        stage('clean') {
+            agent any
+            steps {
+                sh 'cd /root/output'
+                sh 'rm  -rf *'
+            }
+        }
         stage('build') {
             agent {
                 docker { 
@@ -13,7 +20,6 @@ pipeline {
             }
             steps {
                 sh 'npm --version'
-                sh 'whoami'
                 sh 'npm install -g ember-cli'
                 sh 'npm install'
                 sh 'ember -v'
@@ -24,8 +30,10 @@ pipeline {
         stage('deploy') {
             agent any
             steps {
-                sh 'ls /root/.aws'
                 sh 'aws2 s3 ls'
+                sh 'cd /root/output'
+                sh 'ls'
+                sh 'aws2 sync . brandtkeller.net'
             }
         }
     }
