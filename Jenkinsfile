@@ -6,13 +6,18 @@ pipeline {
     stages {
         stage('build') {
             agent {
-                docker { image 'node:lts' }
+                docker { 
+                    image 'node:lts'
+                    args '-v /home/server/output:/root/output'
+                    }
             }
             steps {
                 sh 'npm --version'
+                sh 'whoami'
                 sh 'npm install -g ember-cli'
                 sh 'ember -v'
                 sh 'ls'
+                sh 'ember build -prod -o=/root/output'
             }
         }
         stage('deploy') {
