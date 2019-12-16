@@ -30,9 +30,7 @@ pipeline {
             agent any
             steps {
                 sh 'aws2 s3 ls'
-                sh 'cd /root/output'
-                sh 'ls'
-                sh 'aws2 s3 sync . brandtkeller.net'
+                sh 'aws2 s3 sync /root/output s3://brandtkeller.net'
             }
         }
     }
