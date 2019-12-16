@@ -1,7 +1,8 @@
-# test-app
+# Portfolio Application
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+Ember Application for the purposes of building a Personal Portfolio Website.
+Note: This is a mirror. I host a private git server and CI/CD server where activity may be more recent.
+(If you review the Jenkinsfile, you will see the mirror is updated on merge to master branch)
 
 ## Prerequisites
 
@@ -15,7 +16,7 @@ You will need the following things properly installed on your computer.
 ## Installation
 
 * `git clone <repository-url>` this repository
-* `cd test-app`
+* `cd Portfolio-Mirror`
 * `npm install`
 
 ## Running / Development

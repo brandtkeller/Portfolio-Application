@@ -28,9 +28,14 @@ pipeline {
         }
         stage('deploy') {
             agent any
+            when {
+                branch 'master'
+            }
             steps {
                 sh 'aws2 s3 ls'
                 sh 'aws2 s3 sync /root/output s3://brandtkeller.net'
+                sh 'cd /root/mirror && git pull --mirror http://192.168.0.76:3000/brandtkeller/Portfolio-Application.git'
+                sh 'cd /root/mirror/Portfolio-Application && git push --mirror git@github.com:brandtkeller/Portfolio-Mirror.git'
             }
         }
     }
