@@ -17,7 +17,6 @@ pipeline {
         }
         stage('deploy') {
             agent any
-            }
             steps {
                 sh 'ls /root/.aws'
                 sh 'aws2 s3 ls'
