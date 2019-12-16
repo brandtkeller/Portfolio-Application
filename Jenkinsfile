@@ -7,8 +7,7 @@ pipeline {
         stage('clean') {
             agent any
             steps {
-                sh 'cd /root/output'
-                sh 'rm  -rf *'
+                sh 'cd /root/output && rm -rf *'
             }
         }
         stage('build') {
@@ -33,7 +32,7 @@ pipeline {
                 sh 'aws2 s3 ls'
                 sh 'cd /root/output'
                 sh 'ls'
-                sh 'aws2 sync . brandtkeller.net'
+                sh 'aws2 s3 sync . brandtkeller.net'
             }
         }
     }
