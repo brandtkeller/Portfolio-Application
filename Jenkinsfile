@@ -1,42 +1,59 @@
 pipeline {
-    agent none
-    options {
-        skipStagesAfterUnstable()
+   agent none
+ 
+   environment {
+         HOME_REPO = 'gitlab.nostromo.io:8443/devops/docker/nos-coredns.git'
+         GITHUB_REPO = 'git.web.boeing.com/nostromo/docker/nos-coredns.git'
+         REGISTRY = ''
+         IMAGE = ''
+         PROJECT = ''
     }
-    stages {
-        stage('clean') {
-            agent any
-            steps {
-                sh 'cd /root/output && rm -rf *'
+
+   stages {
+      // On push to development branches, build and scan test image
+      stage('Development build & push') {
+          agent {label 'dk-nos-02.nostromo.io'}
+          when { not { branch 'master' } }
+          steps {
+            checkout scm
+            sh 'sudo podman build --format=docker -t ${REGISTRY}/${IMAGE}-${BRANCH_NAME}:${BUILD_NUMBER} .'
+            withDockerRegistry(credentialsId: 'jenkins_svc', url: 'https://$REGISTRY') {
+                sh 'sudo podman push ${REGISTRY}/${IMAGE}-${BRANCH_NAME}:${BUILD_NUMBER}'
             }
-        }
-        stage('build') {
-            agent {
-                docker { 
-                    image 'node:lts'
-                    args '-v /home/server/output:/root/output'
-                    }
+          }
+      }
+      // On push to master, buid prod image and scan
+
+      stage('Master build & push') {
+          agent {label 'dk-nos-02.nostromo.io'}
+          when { branch 'master' }
+          steps {
+            checkout scm
+            sh 'sudo podman build --format=docker -t ${REGISTRY}/${IMAGE}:latest -t ${REGISTRY}/${IMAGE}:${BUILD_NUMBER} .'
+            withDockerRegistry(credentialsId: 'jenkins_svc', url: 'https://$REGISTRY') {
+                sh 'sudo podman push ${REGISTRY}/${IMAGE}:latest'
+                sh 'sudo podman push ${REGISTRY}/${IMAGE}:${BUILD_NUMBER}'
             }
-            steps {
-                sh 'npm --version'
-                sh 'npm install -g ember-cli'
-                sh 'npm install'
-                sh 'ember -v'
-                sh 'ls'
-                sh 'ember build -prod -o=/root/output'
+          }
+      }
+
+      stage('Mirror to Boeing Gitlab') {
+         agent any
+         options { skipDefaultCheckout true }
+         when { branch 'master' }
+         steps {
+            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+               withCredentials([usernamePassword(credentialsId: 'jenkins_svc', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                            sh 'rm -rf *'
+                            sh 'git clone --mirror https://$NOS_REPO'
+               }
+               withCredentials([usernamePassword(credentialsId: 'brandtkellergitlab', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                           dir("${PROJECT}.git"){
+                                 sh 'git remote add --mirror=fetch boeing https://$GIT_USERNAME:$GIT_PASSWORD@$BOEING_REPO'
+                                 sh 'git push boeing --all'
+                           }
+               }
             }
-        }
-        stage('deploy') {
-            agent any
-            when {
-                branch 'master'
-            }
-            steps {
-                sh 'aws2 s3 ls'
-                sh 'aws2 s3 sync /root/output s3://brandtkeller.net'
-                sh 'cd /root/mirror && git pull --mirror http://192.168.0.76:3000/brandtkeller/Portfolio-Application.git'
-                sh 'cd /root/mirror/Portfolio-Application && git push --mirror git@github.com:brandtkeller/Portfolio-Mirror.git'
-            }
-        }
-    }
-}
+         }
+      }
+   }
