@@ -4,9 +4,9 @@ pipeline {
    environment {
          HOME_REPO = 'http://192.168.0.122:32600/brandtkeller/Portfolio-Application.git'
          GITHUB_REPO = 'https://github.com/brandtkeller/Portfolio-Application.git'
-         REGISTRY = ''
+         REGISTRY = '192.168.0.128:5000/'
          IMAGE = ''
-         PROJECT = ''
+         PROJECT = 'Portfolio-Application'
     }
 
    stages {
@@ -18,6 +18,7 @@ pipeline {
           steps {
             sh 'git clone $HOME_REPO'
             sh 'echo Building....'
+            sh 'rm -rf $PROJECT'
           }
       }
       // On push to master, build prod image and scan
@@ -29,6 +30,7 @@ pipeline {
           steps {
              sh 'git clone $HOME_REPO'
              sh 'echo Building....'
+             sh 'rm -rf $PROJECT'
           }
       }
 
