@@ -16,9 +16,9 @@ pipeline {
           options { skipDefaultCheckout true }
           when { not { branch 'master' } }
           steps {
+            sh 'rm -rf *'
             sh 'git clone $HOME_REPO'
             sh 'echo Building....'
-            sh 'rm -rf $PROJECT'
           }
       }
       // On push to master, build prod image and scan
@@ -28,9 +28,9 @@ pipeline {
           options { skipDefaultCheckout true }
           when { branch 'master' }
           steps {
+             sh 'rm -rf *'
              sh 'git clone $HOME_REPO'
              sh 'echo Building....'
-             sh 'rm -rf $PROJECT'
           }
       }
 
