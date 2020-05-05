@@ -3,7 +3,7 @@ pipeline {
  
    environment {
          HOME_REPO = 'gitlab.nostromo.io:8443/devops/docker/nos-coredns.git'
-         GITHUB_REPO = 'git.web.boeing.com/nostromo/docker/nos-coredns.git'
+         GITHUB_REPO = 'git.web.github.com/nostromo/docker/nos-coredns.git'
          REGISTRY = ''
          IMAGE = ''
          PROJECT = ''
@@ -12,45 +12,36 @@ pipeline {
    stages {
       // On push to development branches, build and scan test image
       stage('Development build & push') {
-          agent {label 'dk-nos-02.nostromo.io'}
+          agent { node { label 'docker' } } 
           when { not { branch 'master' } }
           steps {
-            checkout scm
-            sh 'sudo podman build --format=docker -t ${REGISTRY}/${IMAGE}-${BRANCH_NAME}:${BUILD_NUMBER} .'
-            withDockerRegistry(credentialsId: 'jenkins_svc', url: 'https://$REGISTRY') {
-                sh 'sudo podman push ${REGISTRY}/${IMAGE}-${BRANCH_NAME}:${BUILD_NUMBER}'
-            }
+            sh 'echo Building....'
           }
       }
-      // On push to master, buid prod image and scan
+      // On push to master, build prod image and scan
 
       stage('Master build & push') {
-          agent {label 'dk-nos-02.nostromo.io'}
+          agent { node { label 'docker' } }
           when { branch 'master' }
           steps {
-            checkout scm
-            sh 'sudo podman build --format=docker -t ${REGISTRY}/${IMAGE}:latest -t ${REGISTRY}/${IMAGE}:${BUILD_NUMBER} .'
-            withDockerRegistry(credentialsId: 'jenkins_svc', url: 'https://$REGISTRY') {
-                sh 'sudo podman push ${REGISTRY}/${IMAGE}:latest'
-                sh 'sudo podman push ${REGISTRY}/${IMAGE}:${BUILD_NUMBER}'
-            }
+             sh 'echo Building....'
           }
       }
 
-      stage('Mirror to Boeing Gitlab') {
+      stage('Mirror to public Github') {
          agent any
          options { skipDefaultCheckout true }
          when { branch 'master' }
          steps {
             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-               withCredentials([usernamePassword(credentialsId: 'jenkins_svc', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+               withCredentials([usernamePassword(credentialsId: 'git_creds', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                             sh 'rm -rf *'
-                            sh 'git clone --mirror https://$NOS_REPO'
+                            sh 'git clone --mirror https://$HOME_REPO'
                }
-               withCredentials([usernamePassword(credentialsId: 'brandtkellergitlab', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+               withCredentials([usernamePassword(credentialsId: 'github_creds', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                            dir("${PROJECT}.git"){
-                                 sh 'git remote add --mirror=fetch boeing https://$GIT_USERNAME:$GIT_PASSWORD@$BOEING_REPO'
-                                 sh 'git push boeing --all'
+                                 sh 'git remote add --mirror=fetch github https://$GIT_USERNAME:$GIT_PASSWORD@$GITHUB_REPO'
+                                 sh 'git push github --all'
                            }
                }
             }
