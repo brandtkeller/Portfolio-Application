@@ -3,7 +3,7 @@ pipeline {
  
    environment {
          HOME_REPO = 'http://192.168.0.122:32600/brandtkeller/Portfolio-Application.git'
-         GITHUB_REPO = 'https://github.com/brandtkeller/Portfolio-Application.git'
+         GITHUB_REPO = 'github.com/brandtkeller/Portfolio-Application.git'
          REGISTRY = '192.168.0.128:5000/'
          IMAGE = ''
          PROJECT = 'Portfolio-Application'
@@ -42,7 +42,7 @@ pipeline {
             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                withCredentials([usernamePassword(credentialsId: 'git_creds', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                             sh 'rm -rf *'
-                            sh 'git clone --mirror https://$HOME_REPO'
+                            sh 'git clone --mirror $HOME_REPO'
                }
                withCredentials([usernamePassword(credentialsId: 'github_creds', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                            dir("${PROJECT}.git"){
