@@ -1,42 +1,57 @@
 pipeline {
-    agent none
-    options {
-        skipStagesAfterUnstable()
+   agent none
+ 
+   environment {
+         HOME_REPO = 'http://192.168.0.122:32600/brandtkeller/Portfolio-Application.git'
+         GITHUB_REPO = 'https://github.com/brandtkeller/Portfolio-Application.git'
+         REGISTRY = '192.168.0.128:5000/'
+         IMAGE = ''
+         PROJECT = 'Portfolio-Application'
     }
-    stages {
-        stage('clean') {
-            agent any
-            steps {
-                sh 'cd /root/output && rm -rf *'
+
+   stages {
+      // On push to development branches, build and scan test image
+      stage('Development build & push') {
+          agent { node { label 'docker' } }
+          options { skipDefaultCheckout true }
+          when { not { branch 'master' } }
+          steps {
+            sh 'rm -rf *'
+            sh 'git clone $HOME_REPO'
+            sh 'echo Building....'
+          }
+      }
+      // On push to master, build prod image and scan
+
+      stage('Master build & push') {
+          agent { node { label 'docker' } }
+          options { skipDefaultCheckout true }
+          when { branch 'master' }
+          steps {
+             sh 'rm -rf *'
+             sh 'git clone $HOME_REPO'
+             sh 'echo Building....'
+          }
+      }
+
+      stage('Mirror to public Github') {
+         agent any
+         options { skipDefaultCheckout true }
+         when { branch 'master' }
+         steps {
+            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+               withCredentials([usernamePassword(credentialsId: 'git_creds', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                            sh 'rm -rf *'
+                            sh 'git clone --mirror https://$HOME_REPO'
+               }
+               withCredentials([usernamePassword(credentialsId: 'github_creds', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                           dir("${PROJECT}.git"){
+                                 sh 'git remote add --mirror=fetch github https://$GIT_USERNAME:$GIT_PASSWORD@$GITHUB_REPO'
+                                 sh 'git push github --all'
+                           }
+               }
             }
-        }
-        stage('build') {
-            agent {
-                docker { 
-                    image 'node:lts'
-                    args '-v /home/server/output:/root/output'
-                    }
-            }
-            steps {
-                sh 'npm --version'
-                sh 'npm install -g ember-cli'
-                sh 'npm install'
-                sh 'ember -v'
-                sh 'ls'
-                sh 'ember build -prod -o=/root/output'
-            }
-        }
-        stage('deploy') {
-            agent any
-            when {
-                branch 'master'
-            }
-            steps {
-                sh 'aws2 s3 ls'
-                sh 'aws2 s3 sync /root/output s3://brandtkeller.net'
-                sh 'cd /root/mirror && git pull --mirror http://192.168.0.76:3000/brandtkeller/Portfolio-Application.git'
-                sh 'cd /root/mirror/Portfolio-Application && git push --mirror git@github.com:brandtkeller/Portfolio-Mirror.git'
-            }
-        }
-    }
+         }
+      }
+   }
 }
