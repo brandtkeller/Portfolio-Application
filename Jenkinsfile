@@ -2,8 +2,8 @@ pipeline {
    agent none
  
    environment {
-         HOME_REPO = 'gitlab.nostromo.io:8443/devops/docker/nos-coredns.git'
-         GITHUB_REPO = 'git.web.github.com/nostromo/docker/nos-coredns.git'
+         HOME_REPO = 'http://192.168.0.122:32600/brandtkeller/Portfolio-Application.git'
+         GITHUB_REPO = 'https://github.com/brandtkeller/Portfolio-Application.git'
          REGISTRY = ''
          IMAGE = ''
          PROJECT = ''
@@ -12,9 +12,11 @@ pipeline {
    stages {
       // On push to development branches, build and scan test image
       stage('Development build & push') {
-          agent { node { label 'docker' } } 
+          agent { node { label 'docker' } }
+          options { skipDefaultCheckout true }
           when { not { branch 'master' } }
           steps {
+            sh 'git clone $HOME_REPO'
             sh 'echo Building....'
           }
       }
@@ -22,8 +24,10 @@ pipeline {
 
       stage('Master build & push') {
           agent { node { label 'docker' } }
+          options { skipDefaultCheckout true }
           when { branch 'master' }
           steps {
+             sh 'git clone $HOME_REPO'
              sh 'echo Building....'
           }
       }
