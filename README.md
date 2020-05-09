@@ -1,8 +1,18 @@
 # Portfolio Application
 
 Ember Application for the purposes of building a Personal Portfolio Website.
-Note: This is a mirror. I host a private git server and CI/CD server where activity may be more recent.
-(If you review the Jenkinsfile, you will see the mirror is updated on merge to master branch)
+
+## Planned Changes
+* Add a modal compenent
+* Convert home page sections to modals
+* Begin format for blog posts
+* Create blog post component
+* Begin format for demo page(s)
+
+## Updates
+
+This is a mirror. I host a private git server and CI/CD server where activity may be more recent.
+If you review the Jenkinsfile, you will see the mirror is updated on merge to master branch.
 
 ## Prerequisites
 
@@ -25,29 +35,10 @@ You will need the following things properly installed on your computer.
 * Visit your app at [http://localhost:4200](http://localhost:4200).
 * Visit your tests at [http://localhost:4200/tests](http://localhost:4200/tests).
 
-### Code Generators
-
-Make use of the many generators for code, try `ember help generate` for more details
-
 ### Running Tests
 
 * `ember test`
 * `ember test --server`
-
-### Linting
-
-* `npm run lint:hbs`
-* `npm run lint:js`
-* `npm run lint:js -- --fix`
-
-### Building
-
-* `ember build` (development)
-* `ember build --environment production` (production)
-
-### Deploying
-
-Specify what it takes to deploy your app.
 
 ## Further Reading / Useful Links
 
